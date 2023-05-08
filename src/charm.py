@@ -846,6 +846,31 @@ class GrafanaCharm(CharmBase):
                 "not exist or is not responsive"
             )
 
+    def _parse_grafana_path(self, parts: ParseResult) -> dict:
+        """Convert web_external_url into a usable path."""
+        # urlparse.path parsing is absolutely horrid and only
+        # guarantees any kind of sanity if there is a scheme
+        if not parts.scheme and not parts.path.startswith("/"):
+            # This could really be anything!
+            logger.warning(
+                "Could not determine web_external_url for Grafana. Please "
+                "use a fully-qualified path or a bare subpath"
+            )
+            return {}
+
+        ports = {"https": 443, "http": 80}
+
+        return {
+            "scheme": parts.scheme or "http",
+            "host": parts.netloc or "0.0.0.0",
+            # Black makes this look terrible. Break it up.
+            "port": parts.netloc.split(":")[1]
+            if ":" in parts.netloc
+            else ports.get(parts.scheme, PORT),
+            # -----------
+            "path": parts.path,
+        }
+
     def _build_layer(self) -> Layer:
         """Construct the pebble layer information.
 
