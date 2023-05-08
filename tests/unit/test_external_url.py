@@ -108,7 +108,8 @@ class TestExternalUrl(unittest.TestCase):
             # THEN root url is fqdn and the subpath env is defined
             self.assertEqual(self.get_pebble_env()["GF_SERVER_SERVE_FROM_SUB_PATH"], "True")
             self.assertEqual(
-                self.get_pebble_env()["GF_SERVER_ROOT_URL"], "http://1.2.3.4/testmodel-grafana-k8s"
+                self.get_pebble_env()["GF_SERVER_ROOT_URL"],
+                "http://1.2.3.4/testmodel-grafana-k8s",
             )
             self.assertTrue(self.is_service_running())
 
@@ -119,7 +120,8 @@ class TestExternalUrl(unittest.TestCase):
             # THEN root url is not affected
             self.assertEqual(self.get_pebble_env()["GF_SERVER_SERVE_FROM_SUB_PATH"], "True")
             self.assertEqual(
-                self.get_pebble_env()["GF_SERVER_ROOT_URL"], "http://1.2.3.4/testmodel-grafana-k8s"
+                self.get_pebble_env()["GF_SERVER_ROOT_URL"],
+                "http://1.2.3.4/testmodel-grafana-k8s",
             )
             self.assertTrue(self.is_service_running())
 
@@ -129,7 +131,8 @@ class TestExternalUrl(unittest.TestCase):
             # THEN root url is still not affected
             self.assertEqual(self.get_pebble_env()["GF_SERVER_SERVE_FROM_SUB_PATH"], "True")
             self.assertEqual(
-                self.get_pebble_env()["GF_SERVER_ROOT_URL"], "http://1.2.3.4/testmodel-grafana-k8s"
+                self.get_pebble_env()["GF_SERVER_ROOT_URL"],
+                "http://1.2.3.4/testmodel-grafana-k8s",
             )
 
         # WHEN the traefik relation is removed

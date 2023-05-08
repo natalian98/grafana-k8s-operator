@@ -862,7 +862,7 @@ class GrafanaCharm(CharmBase):
 
         return {
             "scheme": parts.scheme or "http",
-            "host": parts.netloc or "0.0.0.0",
+            "host": parts.netloc.split(":")[0] or "0.0.0.0",
             # Black makes this look terrible. Break it up.
             "port": parts.netloc.split(":")[1]
             if ":" in parts.netloc
