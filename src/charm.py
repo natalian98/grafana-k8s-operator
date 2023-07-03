@@ -29,7 +29,7 @@ import string
 import time
 from io import StringIO
 from pathlib import Path
-from typing import Any, Callable, Dict, cast
+from typing import Any, Callable, Dict, List, Tuple, cast
 import subprocess
 from urllib.parse import ParseResult, urlparse
 
