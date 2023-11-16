@@ -29,7 +29,7 @@ import string
 import time
 from io import StringIO
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Tuple, cast
+from typing import Any, Callable, Dict, cast
 import subprocess
 from urllib.parse import ParseResult, urlparse
 
@@ -625,26 +625,6 @@ class GrafanaCharm(CharmBase):
 
     #####################################
 
-    # K8S WRANGLING
-
-    #####################################
-
-    def _patch_k8s_service(self):
-        """Fix the Kubernetes service that was setup by Juju with correct port numbers."""
-        if self.unit.is_leader() and not self._stored.k8s_service_patched:  # type: ignore[truthy-function]
-            service_ports = [
-                (self.app.name, PORT, PORT),
-            ]
-            try:
-                K8sServicePatch.set_ports(self.app.name, service_ports)  # pyright: ignore
-            except PatchFailed as e:
-                logger.error("Unable to patch the Kubernetes service: %s", str(e))
-            else:
-                self._stored.k8s_service_patched = True
-                logger.info("Successfully patched the Kubernetes service!")
-
-    #####################################
-
     # DATABASE EVENTS
 
     #####################################
@@ -904,7 +884,7 @@ class GrafanaCharm(CharmBase):
 
     def _build_layer(self) -> Layer:
         """Construct the pebble layer information.
-        
+
         Ref: https://github.com/grafana/grafana/blob/main/conf/defaults.ini
         """
         # Placeholder for when we add "proper" mysql support for HA
@@ -987,6 +967,7 @@ class GrafanaCharm(CharmBase):
                             "GF_USERS_AUTO_ASSIGN_ORG": str(
                                 self.model.config["enable_auto_assign_org"]
                             ),
+                            "GF_AUTH_GENERIC_OAUTH_TLS_SKIP_VERIFY_INSECURE": True,
                             **extra_info,
                         },
                     }
