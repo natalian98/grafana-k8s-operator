@@ -942,6 +942,7 @@ class GrafanaCharm(CharmBase):
                             "GF_USERS_AUTO_ASSIGN_ORG": str(
                                 self.model.config["enable_auto_assign_org"]
                             ),
+                            "GF_AUTH_GENERIC_OAUTH_TLS_SKIP_VERIFY_INSECURE": True,
                             **extra_info,
                         },
                     }
