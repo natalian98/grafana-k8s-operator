@@ -1,4 +1,3 @@
-# Taken from https://github.com/dexidp/dex/blob/master/examples/k8s/dex.yaml
 ---
 apiVersion: v1
 kind: Namespace
